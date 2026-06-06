@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SenseEngine v1.0 | Laboratorio de Estilos & Skins</title>
+    
+    <link rel="stylesheet" href="src/sense-engine.css">
+    
+    <style>
+        :root {
+            --bg: #0a0a0c;
+            --panel: #16161a;
+            --accent: #00f2ff;
+        }
+
+        body {
+            margin: 0; padding: 0;
+            background: var(--bg);
+            color: white;
+            font-family: 'Inter', system-ui, sans-serif;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* [EN] Engineering Sidebar / [ES] Barra Lateral de Ingeniería */
+        .sidebar {
+            width: 320px;
+            background: var(--panel);
+            border-right: 1px solid #333;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+        }
+
+        .header { padding: 20px; border-bottom: 1px solid #333; background: #111; }
+        .header h1 { font-size: 1.1rem; color: var(--accent); margin: 0; letter-spacing: 2px; }
+
+        .config-group { padding: 20px; overflow-y: auto; flex-grow: 1; }
+        
+        label { display: block; font-size: 0.7rem; text-transform: uppercase; color: #777; margin-bottom: 8px; font-weight: bold; }
+        
+        select, input {
+            width: 100%;
+            padding: 12px;
+            background: #000;
+            border: 1px solid #444;
+            color: #ddd;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-family: inherit;
+        }
+
+        input:focus, select:focus { border-color: var(--accent); outline: none; }
+
+        /* [EN] Test Area (Canvas) / [ES] Área de Prueba (Canvas) */
+        #test-bench {
+            flex-grow: 1;
+            position: relative;
+            cursor: crosshair;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        .stats {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 0.7rem;
+            color: #555;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar" aria-label="Panel de configuración del motor">
+        <div class="header">
+            <h1>SENSE ENGINE v1.0</h1>
+            <small style="color:#555">MUTEPEYA - LABORATORIO (LABS)</small>
+        </div>
+
+        <div class="config-group">
+            <label for="lang">1. Idioma del Diccionario</label>
+            <select id="lang" onchange="SenseEngine.setLanguage(this.value)">
+                <option value="es">Español (ES)</option>
+                <option value="en">English (EN)</option>
+                <option value="ar">العربية (AR - RTL)</option>
+                <option value="ja">日本語 (JA)</option>
+                <option value="ru">Русский (RU)</option>
+                <option value="hi">हिन्दी (HI)</option>
+                <option value="fr">Français (FR)</option>
+                <option value="pt">Português (PT)</option>
+                <option value="zh">Mandarin (ZH)</option>
+                <option value="bn">Bengali (BN)</option>
+                <option value="id">Indonesian (ID)</option>
+            </select>
+
+            <label for="sound-key">2. ID de Sonido (Lexicon)</label>
+            <select id="sound-key">
+                <optgroup label="Combate">
+                    <option value="shot">Shot (Disparo)</option>
+                    <option value="boom">Boom (Explosión)</option>
+                    <option value="slash">Slash (Corte)</option>
+                    <option value="hit">Hit (Golpe)</option>
+                    <option value="death">Death (Muerte)</option>
+                </optgroup>
+                <optgroup label="Efectos">
+                    <option value="magic">Magic (Brillo)</option>
+                    <option value="fire">Fire (Fuego)</option>
+                    <option value="ice">Ice (Hielo)</option>
+                    <option value="bolt">Bolt (Rayo)</option>
+                    <option value="heal">Heal (Cura)</option>
+                </optgroup>
+                <optgroup label="Web UI">
+                    <option value="click">Click</option>
+                    <option value="err">Error</option>
+                    <option value="ok">Success</option>
+                </optgroup>
+            </select>
+
+            <label for="preset-style">3. Naturaleza (Color/Animación)</label>
+            <select id="preset-style">
+                <option value="ono-impact">Impacto Estándar</option>
+                <option value="ono-fire">Llamas (Fire)</option>
+                <option value="ono-ice">Congelado (Ice)</option>
+                <option value="ono-bolt">Eléctrico (Bolt)</option>
+                <option value="ono-ghost">Espectral (Ghost)</option>
+                <option value="ono-ui">Interfaz (UI)</option>
+                <option value="ono-heavy">Pesado (Heavy)</option>
+                <option value="ono-toxic">Tóxico (Acid)</option>
+            </select>
+
+            <label for="skin-style">4. Skin de Diseño (Textura)</label>
+            <select id="skin-style">
+                <option value="">Ninguno (Base)</option>
+                <option value="skin-cartoon">Cartoon (Cómic)</option>
+                <option value="skin-sticker">Sticker (Adhesivo)</option>
+                <option value="skin-paper">Papercraft (Papel)</option>
+                <option value="skin-neon">Neon (Brillo)</option>
+                <option value="skin-pixel">Pixel (Retro)</option>
+                <option value="skin-glitch">Glitch (Error)</option>
+                <option value="skin-metal">Metallic (Metal)</option>
+                <option value="skin-brutal">Brutalist (Bloque)</option>
+                <option value="skin-hollow">Hollow (Contorno)</option>
+            </select>
+
+            <label for="custom-class">5. Inyector CSS Manual</label>
+            <input type="text" id="custom-class" placeholder="Ej: custom-anim" value="">
+
+            <label>6. Síntesis de Voz</label>
+            <button id="voice-toggle" onclick="toggleVoice()" aria-pressed="false"
+                style="width:100%; padding:12px; background:#000; border:1px solid #444; color:#777;
+                       border-radius:4px; margin-bottom:20px; font-family:inherit; font-size:0.85rem;
+                       cursor:pointer; text-align:left; transition: border-color 0.2s, color 0.2s;">
+                🔇 Voz desactivada
+            </button>
+            
+            <p style="font-size: 0.75rem; color: #888; background: #000; padding: 10px; border-left: 3px solid var(--accent);">
+                <b>Pro Tip:</b> El motor combina la Naturaleza + el Skin seleccionado.
+            </p>
+        </div>
+    </aside>
+
+    <main id="test-bench" aria-label="Área de prueba — hacé clic para disparar una onomatopeya" role="application">
+        <div class="stats">SENSE ENGINE | < 1MB | BY Emanuel Appolonia</div>
+    </main>
+
+    <script src="src/sense-engine.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            SenseEngine.init('test-bench');
+
+            const bench     = document.getElementById('test-bench');
+            const keySel    = document.getElementById('sound-key');
+            const presetSel = document.getElementById('preset-style');
+            const skinSel   = document.getElementById('skin-style');
+            const customInp = document.getElementById('custom-class');
+
+            bench.addEventListener('mousedown', (e) => {
+                const soundID    = keySel.value;
+                const finalStyles = `${presetSel.value} ${skinSel.value} ${customInp.value}`;
+                SenseEngine.spawn(soundID, e.clientX, e.clientY, finalStyles);
+            });
+        });
+
+        // [EN] Voice synthesis toggle / [ES] Toggle de síntesis de voz
+        let _voiceOn = false;
+        function toggleVoice() {
+            _voiceOn = !_voiceOn;
+            const btn = document.getElementById('voice-toggle');
+            if (_voiceOn) {
+                SenseEngine.enableVoice();
+                btn.textContent   = '🔊 Voz activada';
+                btn.style.borderColor = 'var(--accent)';
+                btn.style.color       = 'var(--accent)';
+                btn.setAttribute('aria-pressed', 'true');
+            } else {
+                SenseEngine.disableVoice();
+                btn.textContent   = '🔇 Voz desactivada';
+                btn.style.borderColor = '#444';
+                btn.style.color       = '#777';
+                btn.setAttribute('aria-pressed', 'false');
+            }
+        }
+    </script>
+</body>
+</html>

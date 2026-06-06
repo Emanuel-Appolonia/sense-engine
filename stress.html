@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>SenseEngine Stress Bench</title>
+    <link rel="stylesheet" href="src/sense-engine.css">
+    <style>
+        body { background: #111; color: #fff; font-family: monospace; overflow: hidden; margin: 0; padding: 20px; }
+        #bench-area { position: absolute; top:0; left:0; width:100vw; height:100vh; pointer-events: none; z-index: 10; }
+        #log { position: relative; z-index: 20; background: rgba(0,0,0,0.8); padding: 20px; border-radius: 8px; width: 400px; }
+    </style>
+</head>
+<body>
+    <div id="log">
+        <h2>SenseEngine Stress Bench</h2>
+        <button id="start-btn" onclick="runStress()" style="padding:10px; font-weight:bold; cursor:pointer;">RUN BENCHMARK</button>
+        <div id="results" style="margin-top:20px; white-space: pre-wrap;">Esperando...</div>
+    </div>
+    <div id="bench-area"></div>
+
+    <script src="src/sense-engine.js"></script>
+    <script>
+        SenseEngine.init('bench-area');
+        SenseEngine.setLanguage('es');
+        SenseEngine.disableVoice(); // [EN] Don't blow up user's ears / [ES] No reventar los oídos del usuario
+
+        const resEl = document.getElementById('results');
+        const ids = ["boom", "hit", "magic", "heal", "fire"];
+        const styles = ["ono-impact", "ono-fire", "ono-magic", "ono-heavy", "ono-toxic skin-glitch"];
+
+        function runStress() {
+            resEl.innerText = "Iniciando 1000 spawns simultáneos...\nMidiendo tiempo de ejecución y nodosDOM...\n";
+            document.getElementById('start-btn').disabled = true;
+
+            const t0 = performance.now();
+            
+            // [EN] Injection Phase / [ES] Fase de Inyección
+            for(let i=0; i<1000; i++) {
+                const rsId = ids[Math.floor(Math.random()*ids.length)];
+                const rsSt = styles[Math.floor(Math.random()*styles.length)];
+                const rx = Math.random() * window.innerWidth;
+                const ry = Math.random() * window.innerHeight;
+                
+                SenseEngine.spawn(rsId, rx, ry, rsSt);
+            }
+            
+            const t1 = performance.now();
+            const domNodes = document.getElementById('bench-area').children.length;
+
+            const timeToSpawn = (t1 - t0).toFixed(2);
+            resEl.innerText += `-> Spawns completados: 1000\n`;
+            resEl.innerText += `-> Nodos inyectados al DOM: ${domNodes}\n`;
+            resEl.innerText += `-> Tiempo Bloqueo Main Thread (Inyección): ${timeToSpawn} ms\n\n`;
+            resEl.innerText += `Esperando recolección de basura (Garbage Collector)...\n`;
+
+            // [EN] Verify when nodes are cleaned (max animation 2s) / [ES] Verificar cuando se limpian los nodos (max animation 2s)
+            setTimeout(() => {
+                const finalNodes = document.getElementById('bench-area').children.length;
+                resEl.innerText += `-> Finalizados ~2s...\n`;
+                resEl.innerText += `-> Nodos restantes en DOM: ${finalNodes}\n`;
+                
+                if(finalNodes === 0) {
+                    resEl.innerText += `\nESTADO GARBAGE COLLECTOR: EXCELENTE ✅\nEl motor limpió correctamente su memoria.`;
+                } else {
+                    resEl.innerText += `\nESTADO GARBAGE COLLECTOR: FALLO ❌\nQuedaron nodos huérfanos. (Memory Leak)`;
+                }
+
+                // [EN] Generate report for algorithmic reading / [ES] Generar report para lectura algorítmica
+                const report = document.createElement('div');
+                report.id = "final-report-ready";
+                report.innerText = resEl.innerText;
+                report.style.display = 'none';
+                document.body.appendChild(report);
+
+            }, 2500); // [EN] Give margin over 2s (max ghost animation is 2s) / [ES] Dar margen sobre los 2s (animación max ghost es 2s)
+        }
+        
+        // [EN] Auto-start for automated browser tests / [ES] Inicio automático para pruebas de navegador automatizadas
+        if(window.location.search.includes('auto=1')) {
+            setTimeout(runStress, 500);
+        }
+    </script>
+</body>
+</html>

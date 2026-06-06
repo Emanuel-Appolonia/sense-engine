@@ -1,0 +1,84 @@
+# SenseEngine (Mutepeya) v1.0 | AI Reference Guide
+
+> [!IMPORTANT]
+> This file is optimized for LLMs and AI Agents. It provides a technical summary of the architecture, API, and constraints of SenseEngine.
+
+## Core Philosophy
+- **Lightweight**: Zero external dependencies (Vanilla JS & CSS).
+- **Sensory Redundancy**: Translates audio events into visual (onomatopoeia) and speech (TTS) feedback.
+- **Inclusion-First**: Built-in support for 11 languages, RTL, screen readers (ARIA), and reduced motion.
+
+---
+
+## Technical Constraints for AI
+| Constraint | Value / Description |
+| :--- | :--- |
+| **Language** | ES6+ JavaScript, CSS3 |
+| **Dependencies** | None (0) |
+| **Accessibility** | ARIA-live polite queue, prefers-reduced-motion support |
+| **Performance** | < 1MB footprint, automated DOM Garbage Collector |
+| **Memory** | Nodes removed based on CSS `animation-duration` |
+
+---
+
+## Folder Structure
+- `/src/`: Core logic (`sense-engine.js`, `sense-engine.css`).
+- `/DOCS/`: Detailed technical documentation and Lexicon Master.
+- `/index.html`: Main laboratory / sandbox.
+- `/stress.html`: Performance benchmark and memory leak test.
+
+---
+
+## JavaScript API Reference (`SenseEngine`)
+
+### Methods
+| Method | Arguments | Description |
+| :--- | :--- | :--- |
+| `init` | `containerId: string` | Sets the DOM element where onomatopoeias will spawn. |
+| `setLanguage` | `langCode: string` | Updates dictionary and sets document `dir` (LTR/RTL). |
+| `enableVoice` | `void` | Activates Web Speech API synthesis for spawns. |
+| `disableVoice` | `void` | Deactivates speech synthesis. |
+| `setVoiceParams` | `{rate, pitch}` | Adjusts speed (rate) and tone (pitch) of TTS. |
+| `spawn` | `key, x, y, style` | Generates a visual/audible onomatopoeia at coordinates. |
+
+### Configuration Data
+- **Internal Lang Map (`_LANG_BCP47`)**: Maps 2-char codes to speech synthesis locals.
+- **Master Dictionary (`VOICE_BOX`)**: Contains `dir` (rtl/ltr) and `lex` (onomatopoeias) per language.
+
+---
+
+## CSS Design System Reference
+
+### Base Classes
+- `.sense-ono`: The foundation for all visual elements.
+
+### Nature Styles (Function/Color)
+These define the color and primary animation of the event.
+| Nature | Effect / Color | Animation |
+| :--- | :--- | :--- |
+| `ono-impact` | Standard White/Red | pop |
+| `ono-fire` | Orange/Red Glow | pop |
+| `ono-ice` | Cyan/White Glow | pop |
+| `ono-bolt` | Yellow/White | flash (infinite) |
+| `ono-ghost` | Low opacity/Spaced | slideUp |
+| `ono-ui` | Green/Small | slideUp |
+
+### Aesthetic Skins (Texture)
+Can be combined with Natures (e.g., `ono-fire skin-cartoon`).
+- `skin-cartoon`: Thick black stroke + drop shadow.
+- `skin-sticker`: Wide white border.
+- `skin-pixel`: Monospace + pixelated rendering.
+- `skin-glitch`: RGB split animation.
+- `skin-hollow`: Outline only (using `currentColor`).
+
+---
+
+## Supported Languages (11)
+`es`, `en`, `ar` (RTL), `hi`, `ja`, `ru`, `fr`, `pt`, `zh`, `bn`, `id`.
+
+---
+
+## Common AI Implementation Patterns
+1. **Adding a Sound:** Update `VOICE_BOX` in `sense-engine.js` AND add a nature class in `sense-engine.css`.
+2. **Custom Animation:** Add a nature class with a `forwards` animation; the JS Garbage Collector will detect the duration automatically.
+3. **Integration:** Call `init` on a game canvas container and use `spawn` on collision events.
