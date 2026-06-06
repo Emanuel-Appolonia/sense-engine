@@ -6,6 +6,24 @@
 
 ---
 
+## 🚫 Criterios de Rechazo Inmediato / Immediate Rejection Criteria
+
+[ES] Para mantener la ligereza, la accesibilidad y la seguridad del motor, todas las propuestas de código deben alinearse con los siguientes principios. Se cerrará y rechazará sin derecho a réplica cualquier *Pull Request* que:
+1. Incluya librerías externas o dependencias que comprometan la soberanía del código y añadan vectores de ataque.
+2. Modifique la estructura central del motor (`SenseEngine`) sin una justificación teórica y técnica debidamente documentada en un *Issue* previo.
+3. Presente patrones de código sospechosos o propensos a inyecciones.
+
+El mantenimiento de la integridad del software es la máxima prioridad. Toda acción maliciosa quedará registrada de forma transparente en el historial público de la plataforma.
+
+[EN] To maintain the engine's lightness, accessibility, and security, all code proposals must align with the following principles. Any *Pull Request* will be closed and rejected without the right to reply if it:
+1. Includes external libraries or dependencies that compromise code sovereignty and add attack vectors.
+2. Modifies the engine's core structure (`SenseEngine`) without a properly documented theoretical and technical justification in a previous *Issue*.
+3. Presents suspicious or injection-prone code patterns.
+
+Maintaining software integrity is the highest priority. Any malicious action will be transparently recorded in the platform's public history.
+
+---
+
 ## Regla de Oro / Golden Rule
 
 [ES] **El núcleo del motor (`src/sense-engine.js` + `src/sense-engine.css`) debe pesar menos de 1MB en su totalidad.** La optimización es la base del proyecto.
