@@ -74,18 +74,58 @@
             color: #555;
             pointer-events: none;
         }
+
+        /* [EN] Responsive Design for Mobile / [ES] Diseño Adaptativo para Móviles */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: 50vh;
+                border-right: none;
+                border-bottom: 1px solid #333;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            }
+            #test-bench {
+                height: 50vh;
+                flex-grow: 0;
+            }
+        }
     </style>
 </head>
 <body>
 
     <aside class="sidebar" aria-label="Panel de configuración del motor">
-        <div class="header">
+        <div class="header" style="position: relative;">
+            <div style="position: absolute; right: 20px; top: 15px; display: flex; gap: 8px;">
+                <button onclick="setUILang('es')" style="background: none; border: none; cursor: pointer; padding: 0; opacity: 1; transition: opacity 0.2s;" id="btn-lang-es" title="Español (Argentina)">
+                    <svg width="24" height="16" viewBox="0 0 24 16" style="border-radius: 2px;">
+                      <rect width="24" height="5.33" fill="#75aadb"/>
+                      <rect y="5.33" width="24" height="5.33" fill="#fff"/>
+                      <rect y="10.66" width="24" height="5.33" fill="#75aadb"/>
+                      <circle cx="12" cy="8" r="1.5" fill="#fcbf49"/>
+                    </svg>
+                </button>
+                <button onclick="setUILang('en')" style="background: none; border: none; cursor: pointer; padding: 0; opacity: 0.3; transition: opacity 0.2s;" id="btn-lang-en" title="English">
+                    <svg width="24" height="16" viewBox="0 0 24 16" style="border-radius: 2px;">
+                      <rect width="24" height="16" fill="#b22234"/>
+                      <rect y="2.28" width="24" height="2.28" fill="#fff"/>
+                      <rect y="6.84" width="24" height="2.28" fill="#fff"/>
+                      <rect y="11.4" width="24" height="2.28" fill="#fff"/>
+                      <rect width="10" height="9.12" fill="#3c3b6e"/>
+                      <circle cx="2.5" cy="2.5" r="0.8" fill="#fff"/>
+                      <circle cx="7.5" cy="2.5" r="0.8" fill="#fff"/>
+                      <circle cx="5" cy="6.5" r="0.8" fill="#fff"/>
+                    </svg>
+                </button>
+            </div>
             <h1>SENSE ENGINE v1.0</h1>
-            <small style="color:#555">MUTEPEYA - LABORATORIO (LABS)</small>
+            <small style="color:#555" data-i18n="subtitle">MUTEPEYA - LABORATORIO (LABS)</small>
         </div>
 
         <div class="config-group">
-            <label for="lang">1. Idioma del Diccionario</label>
+            <label for="lang" data-i18n="label1">1. Idioma del Diccionario</label>
             <select id="lang" onchange="SenseEngine.setLanguage(this.value)">
                 <option value="es">Español (ES)</option>
                 <option value="en">English (EN)</option>
@@ -98,9 +138,17 @@
                 <option value="zh">Mandarin (ZH)</option>
                 <option value="bn">Bengali (BN)</option>
                 <option value="id">Indonesian (ID)</option>
+                <option value="ko">한국어 (Coreano - KO)</option>
+                <option value="mi">Māori (Maorí - MI)</option>
+                <option value="qu">Runa Simi (Quechua - QU)</option>
+                <option value="sw">Kiswahili (Suajili - SW)</option>
+                <option value="th">ไทย (Tailandés - TH)</option>
+                <option value="tr">Türkçe (Turco - TR)</option>
+                <option value="uk">Українська (Ucraniano - UK)</option>
+                <option value="vi">Tiếng Việt (Vietnamita - VI)</option>
             </select>
 
-            <label for="sound-key">2. ID de Sonido (Lexicon)</label>
+            <label for="sound-key" data-i18n="label2">2. ID de Sonido (Lexicon)</label>
             <select id="sound-key">
                 <optgroup label="Combate">
                     <option value="shot">Shot (Disparo)</option>
@@ -123,7 +171,7 @@
                 </optgroup>
             </select>
 
-            <label for="preset-style">3. Naturaleza (Color/Animación)</label>
+            <label for="preset-style" data-i18n="label3">3. Naturaleza (Color/Animación)</label>
             <select id="preset-style">
                 <option value="ono-impact">Impacto Estándar</option>
                 <option value="ono-fire">Llamas (Fire)</option>
@@ -135,7 +183,7 @@
                 <option value="ono-toxic">Tóxico (Acid)</option>
             </select>
 
-            <label for="skin-style">4. Skin de Diseño (Textura)</label>
+            <label for="skin-style" data-i18n="label4">4. Skin de Diseño (Textura)</label>
             <select id="skin-style">
                 <option value="">Ninguno (Base)</option>
                 <option value="skin-cartoon">Cartoon (Cómic)</option>
@@ -149,19 +197,48 @@
                 <option value="skin-hollow">Hollow (Contorno)</option>
             </select>
 
-            <label for="custom-class">5. Inyector CSS Manual</label>
+            <label for="custom-class" data-i18n="label5">5. Inyector CSS Manual</label>
             <input type="text" id="custom-class" placeholder="Ej: custom-anim" value="">
 
-            <label>6. Síntesis de Voz</label>
+            <label data-i18n="label6">6. Síntesis de Voz</label>
             <button id="voice-toggle" onclick="toggleVoice()" aria-pressed="false"
                 style="width:100%; padding:12px; background:#000; border:1px solid #444; color:#777;
                        border-radius:4px; margin-bottom:20px; font-family:inherit; font-size:0.85rem;
                        cursor:pointer; text-align:left; transition: border-color 0.2s, color 0.2s;">
                 🔇 Voz desactivada
             </button>
+
+            <!-- Bubble System BETA Controls -->
+            <div style="border: 1px solid var(--accent); padding: 15px; border-radius: 4px; margin-bottom: 20px; background: rgba(0, 242, 255, 0.05);">
+                <label style="color: var(--accent);" data-i18n="label_beta">BETA: Bubble System (en desarrollo)</label>
+                <label for="bubble-enable" style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px; color: #ddd; font-weight: normal; text-transform: none;">
+                    <input type="checkbox" id="bubble-enable" style="width: auto; margin: 0;"> <span data-i18n="label_enable">Activar Burbujas</span>
+                </label>
+                <label for="bubble-variant" data-i18n="label_variant">Color / Estética (Variante)</label>
+                <select id="bubble-variant" style="margin-bottom: 10px;">
+                    <option value="comic">Comic (Amarillo + Negro)</option>
+                    <option value="cyberpunk">Cyberpunk (Oscuro + Neón)</option>
+                    <option value="sharp">Sharp (Rojo + Blanco)</option>
+                    <option value="cloud">Cloud (Blanco suave)</option>
+                </select>
+
+                <label for="bubble-layout" data-i18n="label_layout">Forma (Layout)</label>
+                <select id="bubble-layout" style="margin-bottom: 0;">
+                    <option value="speech">1. Diálogo (Óvalo)</option>
+                    <option value="thought">2. Pensamiento (Píldora/Nube)</option>
+                    <option value="scream">3. Grito (Estrella Irregular)</option>
+                    <option value="whisper">4. Susurro (Borde Punteado)</option>
+                    <option value="impact">5. Impacto (Explosión Manga)</option>
+                    <option value="speed">6. Velocidad (Inclinado)</option>
+                    <option value="angst">7. Terror (Caja Rota)</option>
+                    <option value="webtoon">8. Webtoon (Cápsula Larga)</option>
+                    <option value="narrator">9. Narrador (Caja Doble)</option>
+                    <option value="cyber">10. Cyber (Hexágono Cortado)</option>
+                </select>
+            </div>
             
             <p style="font-size: 0.75rem; color: #888; background: #000; padding: 10px; border-left: 3px solid var(--accent);">
-                <b>Pro Tip:</b> El motor combina la Naturaleza + el Skin seleccionado.
+                <b data-i18n="pro_tip_b">Pro Tip:</b> <span data-i18n="pro_tip_text">El motor combina la Naturaleza + el Skin seleccionado.</span>
             </p>
         </div>
     </aside>
@@ -180,15 +257,88 @@
             const presetSel = document.getElementById('preset-style');
             const skinSel   = document.getElementById('skin-style');
             const customInp = document.getElementById('custom-class');
+            const bubbleEnable = document.getElementById('bubble-enable');
+            const bubbleVariant = document.getElementById('bubble-variant');
+            const bubbleLayout = document.getElementById('bubble-layout');
 
             bench.addEventListener('mousedown', (e) => {
                 const soundID    = keySel.value;
                 const finalStyles = `${presetSel.value} ${skinSel.value} ${customInp.value}`;
-                SenseEngine.spawn(soundID, e.clientX, e.clientY, finalStyles);
+                
+                if (bubbleEnable.checked) {
+                    SenseEngine.spawn(soundID, e.clientX, e.clientY, {
+                        style: finalStyles,
+                        bubble: {
+                            variant: bubbleVariant.value,
+                            layout: bubbleLayout.value,
+                            animated: true
+                        }
+                    });
+                } else {
+                    SenseEngine.spawn(soundID, e.clientX, e.clientY, finalStyles);
+                }
             });
         });
 
         // [EN] Voice synthesis toggle / [ES] Toggle de síntesis de voz
+        
+        // [EN] Lab UI Translation System / [ES] Sistema de Traducción del Laboratorio UI
+        const uiDict = {
+            es: {
+                subtitle: "MUTEPEYA - LABORATORIO (LABS)",
+                label1: "1. Idioma del Diccionario",
+                label2: "2. ID de Sonido (Lexicon)",
+                label3: "3. Naturaleza (Color/Animación)",
+                label4: "4. Skin de Diseño (Textura)",
+                label5: "5. Inyector CSS Manual",
+                label6: "6. Síntesis de Voz",
+                label_beta: "BETA: Bubble System (en desarrollo)",
+                label_enable: "Activar Burbujas",
+                label_variant: "Color / Estética (Variante)",
+                label_layout: "Forma (Layout)",
+                pro_tip_b: "Pro Tip:",
+                pro_tip_text: "El motor combina la Naturaleza + el Skin seleccionado.",
+                voice_on: "🔊 Voz activada",
+                voice_off: "🔇 Voz desactivada"
+            },
+            en: {
+                subtitle: "MUTEPEYA - LABORATORY (LABS)",
+                label1: "1. Dictionary Language",
+                label2: "2. Sound ID (Lexicon)",
+                label3: "3. Nature (Color/Animation)",
+                label4: "4. Design Skin (Texture)",
+                label5: "5. Manual CSS Injector",
+                label6: "6. Speech Synthesis",
+                label_beta: "BETA: Bubble System (in development)",
+                label_enable: "Enable Bubbles",
+                label_variant: "Color / Aesthetics (Variant)",
+                label_layout: "Shape (Layout)",
+                pro_tip_b: "Pro Tip:",
+                pro_tip_text: "The engine combines the Nature + selected Skin.",
+                voice_on: "🔊 Voice On",
+                voice_off: "🔇 Voice Off"
+            }
+        };
+
+        let currentUILang = 'es';
+
+        function setUILang(lang) {
+            currentUILang = lang;
+            document.getElementById('btn-lang-es').style.opacity = lang === 'es' ? '1' : '0.3';
+            document.getElementById('btn-lang-en').style.opacity = lang === 'en' ? '1' : '0.3';
+            
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (uiDict[lang][key]) {
+                    el.textContent = uiDict[lang][key];
+                }
+            });
+
+            // Update voice toggle button text
+            const voiceBtn = document.getElementById('voice-toggle');
+            voiceBtn.textContent = _voiceOn ? uiDict[lang].voice_on : uiDict[lang].voice_off;
+        }
+
         let _voiceOn = false;
         function toggleVoice() {
             _voiceOn = !_voiceOn;

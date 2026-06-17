@@ -112,3 +112,139 @@
     0%   { opacity: 1; }
     100% { opacity: 0; }
 }
+/* --- [EN] BUBBLE SYSTEM (BETA) / [ES] SISTEMA DE BURBUJAS (BETA) --- */
+
+/* Base Layers */
+.sense-container {
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+    z-index: 1000;
+}
+
+.sense-bubble {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.8rem 1.5rem;
+    position: relative;
+    z-index: 1;
+    --bubble-color: rgba(255, 255, 255, 0.9);
+}
+
+.sense-text {
+    position: relative;
+    z-index: 2;
+    margin: 0;
+}
+
+/* Fix delay: Text inherits bubble animation, preventing desync */
+.sense-bubble .sense-ono {
+    animation: none !important;
+    transform: none !important;
+}
+
+/* ==========================================================================
+   1. VARIANTS (Aesthetics, Colors, Borders, Glows)
+   ========================================================================== */
+.sense-variant-comic {
+    background: var(--bubble-color, #ffeb3b);
+    border: 4px solid #000;
+    box-shadow: 4px 4px 0px #000;
+}
+
+.sense-variant-cyberpunk {
+    background: var(--bubble-color, rgba(10, 10, 20, 0.8));
+    border: 2px solid #0ff;
+    filter: drop-shadow(0 0 8px #0ff);
+}
+
+.sense-variant-sharp {
+    background: var(--bubble-color, #ff0000);
+    border: 2px solid #fff;
+    filter: drop-shadow(0 0 5px #f00);
+}
+
+.sense-variant-cloud {
+    background: var(--bubble-color, #ffffff);
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.1), 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* ==========================================================================
+   2. LAYOUTS (Geometries, Forms, CSS Math)
+   ========================================================================== */
+/* 1. Speech (Classic oval) */
+.sense-layout-speech { border-radius: 50%; padding: 1rem 2rem; }
+
+/* 2. Thought (Cloud/Pill) */
+.sense-layout-thought { border-radius: 40px 40px 10px 40px; padding: 1.2rem 2rem; }
+
+/* 3. Scream (Spiky burst - Terror) */
+.sense-layout-scream {
+    padding: 1.5rem 2rem;
+    clip-path: polygon(0% 15%, 15% 15%, 33% 0%, 50% 15%, 66% 0%, 85% 15%, 100% 15%, 100% 33%, 110% 50%, 100% 66%, 100% 85%, 85% 85%, 66% 100%, 50% 85%, 33% 100%, 15% 85%, 0% 85%, 0% 66%, -10% 50%, 0% 33%);
+}
+
+/* 4. Whisper (Dashed/Soft) */
+.sense-layout-whisper { border-radius: 30px; border-style: dashed !important; border-width: 2px !important; opacity: 0.8; }
+
+/* 5. Impact (Heavy radial burst) */
+.sense-layout-impact {
+    padding: 2rem 3rem;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+
+/* 6. Speed (Action Lines / Skewed) */
+.sense-layout-speed { transform: skewX(-20deg); border-radius: 4px; padding: 0.5rem 2rem; }
+
+/* 7. Angst (Shaky / Unstable) */
+.sense-layout-angst {
+    clip-path: polygon(2% 2%, 98% 4%, 95% 96%, 5% 98%);
+    padding: 1rem 1.5rem;
+}
+
+/* 8. Webtoon (Vertical Capsule) */
+.sense-layout-webtoon { border-radius: 50px; padding: 1rem 3rem; }
+
+/* 9. Narrator (Rigid Box) */
+.sense-layout-narrator { border-radius: 0; border-style: double !important; border-width: 6px !important; padding: 0.8rem 1.2rem; }
+
+/* 10. Cyber (Sci-fi Hex/Octagon) */
+.sense-layout-cyber {
+    padding: 1rem 2rem;
+    clip-path: polygon(10% 0, 90% 0, 100% 20%, 100% 80%, 90% 100%, 10% 100%, 0 80%, 0 20%);
+}
+
+/* ==========================================================================
+   3. ANIMATIONS
+   ========================================================================== */
+.sense-anim-comic { animation: bubble-pop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+.sense-anim-cyberpunk { animation: bubble-glitch 0.4s forwards; }
+.sense-anim-sharp { animation: bubble-flash 0.3s forwards; }
+.sense-anim-cloud { animation: bubble-float 1s forwards; }
+
+@keyframes bubble-pop {
+    0% { transform: scale(0); opacity: 0; }
+    50% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 0; }
+}
+
+@keyframes bubble-glitch {
+    0% { opacity: 0; transform: translate(0); }
+    10% { opacity: 1; transform: translate(-2px, 2px); }
+    20% { opacity: 0; transform: translate(2px, -2px); }
+    30% { opacity: 1; transform: translate(-2px, -2px); }
+    100% { opacity: 0; transform: translate(0); }
+}
+
+@keyframes bubble-flash {
+    0% { transform: scale(0); opacity: 1; }
+    20% { transform: scale(1.5); opacity: 1; }
+    100% { transform: scale(1.2); opacity: 0; }
+}
+
+@keyframes bubble-float {
+    0% { transform: translateY(10px) scale(0.9); opacity: 0; }
+    20% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-20px) scale(1); opacity: 0; }
+}

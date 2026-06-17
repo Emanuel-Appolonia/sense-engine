@@ -6,7 +6,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Size](https://img.shields.io/badge/Size-%3C%201MB-brightgreen)](#)
-[![Languages](https://img.shields.io/badge/Languages-11+-blue)](#)
+[![Languages](https://img.shields.io/badge/Languages-19-blue)](#)
 [![Vanilla JS](https://img.shields.io/badge/Stack-Vanilla%20JS%20%2F%20CSS-orange)](#)
 
 **Motor de redundancia sensorial universal para aplicaciones web y videojuegos.**  
@@ -26,7 +26,8 @@
 ### ✨ Características Principales
 
 - **🎯 Mapeo de Precisión:** Traducciones exactas y fijas para cada tipo de evento, evitando ambigüedades.
-- **🌍 Motor Multi-idioma:** Soporte nativo para más de 11 idiomas, incluyendo soporte completo para sistemas de escritura **RTL (Derecha a Izquierda)** como Árabe y Hebreo.
+- **🌍 Motor Multi-idioma (19 Idiomas):** Soporte nativo desde Español e Inglés hasta Japonés, Maorí, Suajili, Coreano y sistemas de escritura **RTL** como Árabe.
+- **🫧 Bubble System (BETA):** Nuevo módulo para generar globos de cómic dinámicos y adaptativos (100% CSS puro). [Ver Documentación](./DOCS/README-BUBBLE-es.md).
 - **🎨 Sistema de "Natures" (Skins):** Más de 20 estilos visuales combinables (fuego, agua, impacto, etc.) implementados puramente en CSS para máximo rendimiento.
 - **🔊 Síntesis de Voz Integrada:** Soporte opcional para `Web Speech API`, permitiendo una experiencia auditiva complementaria.
 - **♿ Accesibilidad Nativa:** Diseñado con estándares ARIA para ser amigable con lectores de pantalla.
@@ -74,8 +75,9 @@ SenseEngine.spawn('explosion', 400, 300, 'ono-fire');
 **SenseEngine.js** is a lightweight sensory redundancy engine that translates logical sound events into precise visual onomatopoeias. It is designed for developers who prioritize accessibility and performance.
 
 - **Zero Dependencies:** Pure Vanilla JS and CSS.
-- **Global Reach:** 11+ languages including RTL support.
-- **Performance First:** Heavy optimization for mobile and low-end devices.
+- **Global Reach:** 19 languages including RTL support.
+- **Bubble System (BETA):** Dynamic comic/manga adaptive bubbles module. [See Docs](./DOCS/README-BUBBLE-en.md).
+- **Performance First:** Heavy optimization for mobile and low-end devices (< 1MB).
 
 ---
 
